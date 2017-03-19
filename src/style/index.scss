@@ -1,0 +1,28 @@
+// Base css
+@import "base/clear.scss";
+
+// Dependencies
+@import "dependencies/bootstrap";
+
+// ------- Project ------- //
+@import "base/typography.scss";
+@import "variables";
+// Sections
+@import "sections/header.scss";
+@import "sections/footer.scss";
+
+
+.chart-container{
+	width: 100%;
+	min-height: 300px;
+}
+
+.plot{
+	height: 500px;
+}
+
+.pie-chart .slice line{
+	fill:none;
+	stroke:rgb(80,80,80);
+	stroke-width:1px;
+}
