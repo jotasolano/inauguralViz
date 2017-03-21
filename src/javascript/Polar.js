@@ -15,22 +15,22 @@ function Polar(){
 		H = H || selection.node().clientHeight - M.t - M.b;
 		var arr = selection.datum()?selection.datum():[];
 
-		var values = Object.values(arr[_ID].values[0]);
+		var values = Object.values(arr[_ID].values[0]).slice(1); //get values (except the first b/c it's the year)
 		for(var i=values.length; i--;) values[i] = values[i]|0; //coerce values to numbers
+		console.log(values)
 
 		// ** ------- LAYOUT ------- **
 		var maxY = d3.max(values);
 
 		var labels = ['unity', 'democracy', 'success', 'immigration', 'terror', 'war']
 		
-		var scaleX = d3.scaleBand()
-			.domain(labels)
-			.range([0,W]);
 
+		// !! - scaleBand creates a weird offset
+		var scaleX = d3.scalePoint()
+			.domain(labels)
+			.range([0,W])
 
 		var scaleY = d3.scaleLinear().domain([0,maxY]).range([H,0]);
-
-		console.log(values)
 
 		//Represent
 		//Axis, line and area generators
@@ -41,8 +41,7 @@ function Polar(){
 		console.log(line(values));
 
 		var axisX = d3.axisBottom()
-			.scale(scaleX)
-			.ticks(d3.timeMonth.every(6));
+			.scale(scaleX);
 
 		var axisY = d3.axisLeft()
 			.tickSize(-W)

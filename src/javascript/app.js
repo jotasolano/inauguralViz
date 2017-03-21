@@ -30,8 +30,12 @@ function dataLoaded(err, concepts, words){
 
 
 	var polar = Polar()
+	var polar2 = Polar().id(30)
+
+	// console.log(Polar().id(5))
 
 	d3.select('#plot1').datum(nestByYear).call(polar);
+	d3.select('#plot2').datum(nestByYear).call(polar2);
 
 
 }// <--- dataLoaded()
