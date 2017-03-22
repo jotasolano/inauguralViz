@@ -6,6 +6,7 @@ function Polar(){
 	// var brush = d3.brushX()
 	// 	.on('end',brushend);
 	var scaleX, scaleY;
+	var labels = []
 	// var _dispatcher = d3.dispatch('timerange:select');
 
 	var _ID = 0;
@@ -15,15 +16,24 @@ function Polar(){
 		H = H || selection.node().clientHeight - M.t - M.b;
 		var arr = selection.datum()?selection.datum():[];
 
-		var values = Object.values(arr[_ID].values[0]).slice(1); //get values (except the first b/c it's the year)
-		for(var i=values.length; i--;) values[i] = values[i]|0; //coerce values to numbers
-		console.log(values)
+		var _data = arr.params;
 
 		// ** ------- LAYOUT ------- **
-		var maxY = d3.max(values);
+		function parseObjectKeys(obj) {
+			for (var prop in obj) {
+		  		var sub = obj[prop]
+		    	if (prop=="key") {
+		    		labels.push(obj[prop])
+		    }
+		    if (typeof(sub) == "object") {
+		    	parseObjectKeys(sub);
+		    }
+		  }
+		}
 
-		var labels = ['unity', 'democracy', 'success', 'immigration', 'terror', 'war']
-		
+
+		parseObjectKeys(_data);
+		var maxY = 60;
 
 		// !! - scaleBand creates a weird offset
 		var scaleX = d3.scalePoint()
@@ -35,10 +45,11 @@ function Polar(){
 		//Represent
 		//Axis, line and area generators
 		var line = d3.line()
-			.x(function(d, i){ return scaleX(labels[i]); })
-			.y(function(d, i){ return scaleY(d); });
+			.x(function(d){ return scaleX(d.key); })
+			.y(function(d){ return scaleY(parseInt(d.value)); });
 
-		console.log(line(values));
+			// .x(function(d, i){ return scaleX(labels[i]); })
+			// .y(function(d, i){ return scaleY(d); });
 
 		var axisX = d3.axisBottom()
 			.scale(scaleX);
@@ -59,7 +70,7 @@ function Polar(){
 		</svg>
 		*/
 		var svg = selection.selectAll('svg')
-			.data([values]);
+			.data([_data]);
 
 		var svgEnter = svg.enter()
 			.append('svg') //ENTER
