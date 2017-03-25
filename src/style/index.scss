@@ -19,7 +19,7 @@
 }
 
 .plot{
-	min-height: 300px;
+	min-height: 600px;
 }
 
 .pie-chart .slice line{
@@ -27,3 +27,11 @@
 	stroke:rgb(80,80,80);
 	stroke-width:1px;
 }
+
+
+.axis line,
+.axis circle {
+    fill: none;
+    stroke: steelblue;
+    stroke-dasharray: 4;
+  }

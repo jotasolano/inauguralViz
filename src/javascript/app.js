@@ -1,6 +1,7 @@
 // *** --- REQUIRE DEPENDENCIES --- ***
 var d3 = require('d3')
 var crossfilter = require('crossfilter')
+
 window.d3 = d3
 window.crossfilter = crossfilter
 
