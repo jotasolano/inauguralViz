@@ -35,7 +35,6 @@ function Polar(){
 
 
 		parseObjectKeys(_data);
-		var maxY = 60;
 
 		// !! - scaleBand creates a weird offset
 		var scaleX = d3.scalePoint()
@@ -43,51 +42,31 @@ function Polar(){
 			.range([0,W])
 
 		var dLength = _data.length;
-		console.log(dLength);
 
-		// var scaleX = d3.scalePoint()
-		// 	.domain(labels)
-		// 	.range([0,  2 * Math.PI])
-
-		var scaleY = d3.scaleLinear().domain([0,maxY]).range([H,150]);
-		// var scaleY = d3.scaleLinear().domain([0,maxY]).range([0,150]);
-
-		//Represent
-		//Axis, line and area generators
-		var line = d3.line()
-			.x(function(d){ return scaleX(d.key); })
-			.y(function(d){ return scaleY(parseInt(d.value)); });
-
-		// var radialLine = d3.radialLine()
-		// 	.angle(function(d) { return scaleX(d.key); })
-		// 	.radius(function(d) { return scaleY(parseInt(d.value)); })
-
-		// var radialLine = d3.radialLine()
-		// 	.angle(function(d, i) { return i * (360/dLength); })
-		// 	.radius(function(d) { return (parseInt(-d.value) * 1.5 * Math.PI); })
-
-		var radius = Math.min(W, H) / 2 - 30 //30 be the margin
+		var radius = Math.min(W, H) / 2 - M.t //30 be the margin
 
 		var a = d3.scaleLinear()
-			.domain([0, dLength])
-			.range([0, 2 * Math.PI])
+			.domain([0, (dLength/2)-1])
+			.range([0, Math.PI])
 
-		console.log(a(1));
+		var aB = d3.scaleLinear()
+			.domain([0, (dLength/2)-1])
+			.range([Math.PI, 2*Math.PI])
 
+		console.log(a(5));
 
 	    var r = d3.scaleLinear()
 	      .domain([0, 42])
 	      .range([0, radius]);
 
+
 		var radialLine = d3.radialLine()
-			.angle(function(d, i) { return a(-i); })
-			// .angle(function(d, i) { return i + (2 * Math.PI/dLength); })
+			.angle(function(d, i) { return a(i); })
 			.radius(function(d) { return r(parseInt(d.value)); })
 
-		console.log()
-
-			// .x(function(d, i){ return scaleX(labels[i]); })
-			// .y(function(d, i){ return scaleY(d); });
+ 		var radialLineBtm = d3.radialLine()
+			.angle(function(d, i) { return aB(i); })
+			.radius(function(d) { return r(parseInt(d.value)); })
 
 		var axisX = d3.axisBottom()
 			.scale(scaleX);
@@ -120,7 +99,8 @@ function Polar(){
 		var plotEnter = svgEnter.append('g').attr('class','plot time-series')
 			.attr('transform','translate('+M.l+','+M.t+')')
 		// plotEnter.append('g').attr('class','axis axis-y');
-		plotEnter.append('path').attr('class','line');
+		plotEnter.append('path').attr('class','lineTop');
+		plotEnter.append('path').attr('class','lineBtm');
 		plotEnter.append('circle').attr('class', 'point');
 		// plotEnter.append('g').attr('class','axis axis-x');
 		// plotEnter.append('g').attr('class','brush');
@@ -128,57 +108,27 @@ function Polar(){
 		//Update
 		var plot = svg.merge(svgEnter)
 			.select('.plot')
-			// .attr('transform','translate('+ (M.l) + "," + (M.t) + ')')
-			.attr('transform','translate('+ (M.l + W / 2) + "," + (M.t + H / 2) + ') rotate('+0+')');
-			// .attr('transform', 'rotate('+180+')');
-		plot.select('.line').transition()
-			.attr('d',radialLine)
+			.attr('transform','translate('+ (M.l + W / 2) + "," + (M.t + H / 2) + ') rotate('+-90+')');
+		plot.select('.lineTop').transition()
+			.attr('d',function(d) { return radialLine(d.slice(0,3)); })
 			.style('fill', 'red')
 			.style('stroke', '#000');
 
+		selection.selectAll('svg').data([0]).append('circle')
+			.attr('transform','translate('+ (M.l + W / 2) + "," + (M.t + H / 2) + ') rotate('+0+')')
+		    .attr('cx', 0)
+		    .attr('cy', 0)
+		    .attr('r', 2)
+		    .style('fill', 'black');
 
-    // plot.selectAll("point")
-    //   .data(_data)
-    //   .enter()
-    //   .append("circle")
-    //   .attr("class", "point")
-    //   .attr("transform", function(d) {
-    //     var coors = line([d]).slice(1).slice(0, -1);
-    //     return "translate(" + coors + ")"
-    //   })
-    //   .attr("r", 8)
-		// plot.select('.axis-y').transition()
-		// 	.call(axisY);
-		// plot.select('.axis-x')
-		// 	.attr('transform','translate(0,'+H+')')
-		// 	.transition()
-		// 	.call(axisX);
+		
+		plot.select('.lineBtm').transition()
+			.attr('d',function(d) { return radialLineBtm(d.slice(3)); })
+			.attr('transform', 'rotate('+0+')')
+			.style('fill', 'blue')
+			.style('stroke', '#000');
 
-		// //Call brush function
-		// plot.select('.brush')
-		// 	.call(brush);
 	};
-
-	// function brushend(){
-	// 	if(!d3.event.selection) {_dispatcher.call('timerange:select',this,null); return;}
-	// 	var t0 = scaleX.invert(d3.event.selection[0]),
-	// 		t1 = scaleX.invert(d3.event.selection[1]);
-	// 	_dispatcher.call('timerange:select',this,[t0,t1]);
-	// }
-
-	// ** ------- CONFIG VALUES ------- **
-	// exports.domain = function(_arr){
-	// 	if(!arguments.length) return [T0,T1];
-	// 	T0 = _arr[0];
-	// 	T1 = _arr[1];
-	// 	return this;
-	// };
-
-	// exports.interval = function(_int){
-	// 	_interval = _int;
-	// 	return this;
-	// };
-
 	exports.id = function(_id){
 		if(!arguments.length) return _ID;
 		_ID = _id
