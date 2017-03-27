@@ -35,9 +35,6 @@ function dataLoaded(err, concepts, words){
 	}
 
 	console.log(nestByYear);
-
-	//testing branch//
-
 	// console.log(Object.keys(nestByYear[0].values[0])); //the keys
 	// console.log(Object.values(nestByYear[0].values[0])); //the values
 
@@ -47,8 +44,8 @@ function dataLoaded(err, concepts, words){
 
 	// console.log(Polar().id(5))
 
-	d3.select('#plot1').datum(nestByYear[0]).call(polar);
-	d3.select('#plot2').datum(nestByYear[2]).call(polar2);
+	d3.select('#plot1').datum(nestByYear).call(polar);
+	// d3.select('#plot2').datum(nestByYear[2]).call(polar2);
 
 
 }// <--- dataLoaded()
