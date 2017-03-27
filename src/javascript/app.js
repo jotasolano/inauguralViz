@@ -22,7 +22,7 @@ function dataLoaded(err, concepts, words){
 		.key(function(d) { return d.dates; })
 		.rollup(function(d) { var x = d[0]; delete x.dates; return x; })
 		.entries(concepts);
-		
+
 	// nesting data by year
 	for (index in nestByYear) {
 		var keys = Object.keys(nestByYear[index].value);
@@ -35,6 +35,8 @@ function dataLoaded(err, concepts, words){
 	}
 
 	console.log(nestByYear);
+
+	//testing branch//
 
 	// console.log(Object.keys(nestByYear[0].values[0])); //the keys
 	// console.log(Object.values(nestByYear[0].values[0])); //the values
