@@ -16,7 +16,9 @@ function Polar(){
 		H = H || selection.node().clientHeight - M.t - M.b;
 		var arr = selection.datum()?selection.datum():[];
 
-		console.log(arr)
+		console.log(arr);
+
+		console.log(arr.key)
 		var _data = arr.params;
 		console.log(_data)
 
@@ -53,8 +55,6 @@ function Polar(){
 			.domain([0, (dLength/2)-1])
 			.range([Math.PI, 2*Math.PI])
 
-		console.log(a(5));
-
 	    var r = d3.scaleLinear()
 	      .domain([0, 42])
 	      .range([0, radius]);
@@ -76,8 +76,6 @@ function Polar(){
 			.scale(scaleY)
 			.ticks(4);
 
-		console.log(radialLine(_data));	
-
 		//Set up the DOM structure like so:
 		/*
 		<svg>
@@ -98,12 +96,9 @@ function Polar(){
 
 		var plotEnter = svgEnter.append('g').attr('class','plot time-series')
 			.attr('transform','translate('+M.l+','+M.t+')')
-		// plotEnter.append('g').attr('class','axis axis-y');
 		plotEnter.append('path').attr('class','lineTop');
 		plotEnter.append('path').attr('class','lineBtm');
 		plotEnter.append('circle').attr('class', 'point');
-		// plotEnter.append('g').attr('class','axis axis-x');
-		// plotEnter.append('g').attr('class','brush');
 
 		//Update
 		var plot = svg.merge(svgEnter)
@@ -111,8 +106,14 @@ function Polar(){
 			.attr('transform','translate('+ (M.l + W / 2) + "," + (M.t + H / 2) + ') rotate('+-90+')');
 		plot.select('.lineTop').transition()
 			.attr('d',function(d) { return radialLine(d.slice(0,3)); })
-			.style('fill', 'red')
-			.style('stroke', '#000');
+			.style('fill', '#BCD8DD')
+			.style('stroke', 'none');
+
+		plot.select('.lineBtm').transition()
+			.attr('d',function(d) { return radialLineBtm(d.slice(3)); })
+			.attr('transform', 'rotate('+0+')')
+			.style('fill', '#8C9FA3')
+			.style('stroke', 'none');
 
 		selection.selectAll('svg').data([0]).append('circle')
 			.attr('transform','translate('+ (M.l + W / 2) + "," + (M.t + H / 2) + ') rotate('+0+')')
@@ -121,12 +122,11 @@ function Polar(){
 		    .attr('r', 2)
 		    .style('fill', 'black');
 
-		
-		plot.select('.lineBtm').transition()
-			.attr('d',function(d) { return radialLineBtm(d.slice(3)); })
-			.attr('transform', 'rotate('+0+')')
-			.style('fill', 'blue')
-			.style('stroke', '#000');
+
+		selection.selectAll('svg').data([arr]).append('text')
+			.attr('transform','translate('+ (M.l) + "," + (M.t) + ') rotate('+0+')')
+		    .text(function(d) { return d.key; })
+		    .style('fill', 'black');
 
 	};
 	exports.id = function(_id){
