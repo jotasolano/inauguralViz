@@ -41,12 +41,42 @@ function dataLoaded(err, concepts, words){
 
 
 	var polar = Polar()
-	var polar2 = Polar().id(30)
 
-	// console.log(Polar().id(5))
+	for (var i = 0; i < Things.length; i++) {
+		Things[i]
+	}
 
-	d3.select('#plot1').datum(nestByYear[0]).call(polar);
-	d3.select('#plot2').datum(nestByYear[2]).call(polar2);
+
+	d3.select('#multiples-container')
+		.append('div')
+		.attr('class', 'col-lg-6 chart-container test')
+		.append('div')
+		.attr('class', 'plot')
+		.attr('id', 'plot1')
+		.datum(nestByYear[0]).call(polar)
+
+	d3.select('#multiples-container')
+		.append('div')
+		.attr('class', 'col-lg-6 chart-container test')
+		.append('div')
+		.attr('class', 'plot')
+		.attr('id', 'plot1')
+		.datum(nestByYear[2]).call(polar)
+
+	d3.select('#multiples-container')
+		.append('div')
+		.attr('class', 'col-lg-6 chart-container test')
+		.append('div')
+		.attr('class', 'plot')
+		.attr('id', 'plot1')
+		.datum(nestByYear[4]).call(polar)
+
+	// d3.select('#plot1').datum(nestByYear[0]).call(polar);
+	// d3.select('#plot2').datum(nestByYear[2]).call(polar);
+
+	// 	var charts = document.getElementById('multiples-container');
+
+	// charts.innerHTML = '<div class="col-lg-6 chart-container"><div id="plot3" class="plot"></div></div>'
 
 
 }// <--- dataLoaded()
