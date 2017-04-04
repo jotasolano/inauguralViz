@@ -7,13 +7,12 @@ window.crossfilter = crossfilter
 
 // *** --- DATA QUERY --- ***
 d3.queue()
-	.defer(d3.csv, '../data/compiledFreqConcepts3.csv')
+	.defer(d3.csv, '../data/compiledFreqConcepts5.csv')
 	.defer(d3.csv, '../data/compiledFreqWords.csv')
 	.await(dataLoaded);
 
 // *** --- dataLoaded() --- ***
 function dataLoaded(err, concepts, words){
-	// console.log(concepts);
 
 	// *** --- DATA MODELS --- ***
 	var cf = crossfilter(concepts)

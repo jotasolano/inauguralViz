@@ -39,20 +39,14 @@ function Polar(){
 			.range([0,W])
 
 		var dLength = _data.length;
+		var maxSpLength = 9200;
+		console.log(_data);
 
-		var radius = Math.min(W+40, H+40) / 2 - 5
+		var radius = Math.min(W+40, H+40) / 2 - 7
 
-		var a = d3.scaleLinear()
-			.domain([0, (dLength/2)-1])
-			.range([0, Math.PI])
-
-		var aB = d3.scaleLinear()
-			.domain([0, (dLength/2)-1])
-			.range([Math.PI, 2*Math.PI])
-
-	    var r = d3.scaleLinear()
-	      .domain([0, 124])
-	      .range([0, radius]);
+		var r = d3.scaleLinear()
+			.domain([0, maxSpLength])
+			.range([0, Math.PI*2])
 
 	    var y = d3.scaleLinear()
 	    	.domain([0, 124])
@@ -62,7 +56,7 @@ function Polar(){
 	    	.domain([0, 124])
 	    	.range([H/2, H])
 
-	    var area = d3.area()
+	    var areaT = d3.area()
 	    	.x(function(d, i) {return i * 100; })
 	    	.y1(function(d) { return y(parseInt(d.value)); })
 
@@ -70,13 +64,11 @@ function Polar(){
 	    	.x(function(d, i) {return i * 100; })
 	    	.y1(function(d) { return y2(parseInt(d.value)); })
 
-		var radialLine = d3.radialLine()
-			.angle(function(d, i) { return a(i); })
-			.radius(function(d) { return r(parseInt(d.value)); })
-
- 		var radialLineBtm = d3.radialLine()
-			.angle(function(d, i) { return aB(i); })
-			.radius(function(d) { return r(parseInt(d.value)); })
+		var arc = d3.arc()
+			.innerRadius(function(d) { return radius; })
+			.outerRadius(function(d) { return radius; })
+			.startAngle(r(0))
+			.endAngle(function(d, i) { return r(d[0].value); });
 
 		var axisX = d3.axisBottom()
 			.scale(scaleX);
@@ -86,16 +78,6 @@ function Polar(){
 			.scale(scaleY)
 			.ticks(4);
 
-		//Set up the DOM structure like so:
-		/*
-		<svg>
-			<g class='plot'>
-				<g class='axis axis-y' />
-				<path class='line' />
-				<g class='axis axis-x' />
-			</g>
-		</svg>
-		*/
 		var svg = selection.selectAll('svg')
 			.data([_data]);
 
@@ -106,13 +88,12 @@ function Polar(){
 
 		var plotEnter = svgEnter.append('g').attr('class','plot time-series')
 			.attr('transform','translate('+M.l+','+M.t+')')
-		plotEnter.append('path').attr('class','lineTop');
-		plotEnter.append('path').attr('class','lineBtm');
 		plotEnter.append('circle').attr('class', 'point');
 		plotEnter.append('path').attr('class', 'areaT');
 		plotEnter.append('path').attr('class', 'areaB');
+		plotEnter.append('path').attr('class', 'arc');
 
-		area.y0(y(0));
+		areaT.y0(y(0));
 		areaB.y0(y2(0));
 
 		//Update
@@ -121,35 +102,19 @@ function Polar(){
 			.attr('transform','translate('+ (M.l) + "," + (M.t) + ') rotate('+-0+')');
 
 		plot.select('.areaT').transition()
-			// .attr('transform','translate('+ (M.l) + "," + (M.t + H/2) + ') rotate('+-0+')');
-			.attr('d',function(d) { return area(d.slice(0,3)); })
+			.attr('d', function(d) { return areaT(d.slice(0,3)); })
 			.style('fill', '#BCD8DD')
 			.style('stroke', 'none');
 
 		plot.select('.areaB').transition()
-			// .attr('transform','translate('+ (0) + "," + (H/2) + ') rotate('+-0+')')
-			.attr('d',function(d) { return areaB(d.slice(3)); })
+			.attr('d', function(d) { return areaB(d.slice(3,6)); })
 			.style('fill', '#8C9FA3')
 			.style('stroke', 'none');
 
-		// plot.select('.lineTop').transition()
-		// 	.attr('d',function(d) { return radialLine(d.slice(0,3)); })
-		// 	.style('fill', '#BCD8DD')
-		// 	.style('stroke', 'none');
-
-		// plot.select('.lineBtm').transition()
-		// 	.attr('d',function(d) { return radialLineBtm(d.slice(3)); })
-		// 	.attr('transform', 'rotate('+0+')')
-		// 	.style('fill', '#8C9FA3')
-		// 	.style('stroke', 'none');
-
-		selection.selectAll('svg').data([0]).append('circle')
-			.attr('transform','translate('+ (M.l) + "," + (M.t + H/2) + ') rotate('+0+')')
-		    .attr('cx', 0)
-		    .attr('cy', 0)
-		    .attr('r', 2)
-		    .style('fill', 'black');
-
+		plot.select('.arc').transition()
+			.attr('transform','translate('+ (W/2) + "," + (H/2) + ') rotate('+-0+')')
+			.attr('d', function(d) { return arc(d.slice(6)); })
+			.style('stroke', '#666666');
 
 		selection.selectAll('svg').data([arr]).append('text')
 			.attr('transform','translate('+ (M.l) + "," + (M.t) + ') rotate('+0+')')
