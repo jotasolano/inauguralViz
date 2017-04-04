@@ -3,8 +3,6 @@ function Polar(){
 		return d.startTime;
 	};
 	var W, H, M ={t:20,r:20,b:20,l:20};
-	// var brush = d3.brushX()
-	// 	.on('end',brushend);
 	var scaleX, scaleY;
 	var labels = []
 	// var _dispatcher = d3.dispatch('timerange:select');
@@ -30,19 +28,14 @@ function Polar(){
 		  }
 		}
 
-
 		parseObjectKeys(_data);
-
-		// !! - scaleBand creates a weird offset
-		var scaleX = d3.scalePoint()
-			.domain(labels)
-			.range([0,W])
 
 		var dLength = _data.length;
 		var maxSpLength = 9200;
 		console.log(_data);
 
-		var radius = Math.min(W+40, H+40) / 2 - 7
+		var radius = Math.min(W, H) / 2 - 7
+		var padding = (W - 200)/2
 
 		var r = d3.scaleLinear()
 			.domain([0, maxSpLength])
@@ -102,11 +95,13 @@ function Polar(){
 			.attr('transform','translate('+ (M.l) + "," + (M.t) + ') rotate('+-0+')');
 
 		plot.select('.areaT').transition()
+			.attr('transform','translate('+ (padding) + "," + (0) + ') rotate('+-0+')')
 			.attr('d', function(d) { return areaT(d.slice(0,3)); })
 			.style('fill', '#BCD8DD')
 			.style('stroke', 'none');
 
 		plot.select('.areaB').transition()
+			.attr('transform','translate('+ (padding) + "," + (0) + ') rotate('+-0+')')
 			.attr('d', function(d) { return areaB(d.slice(3,6)); })
 			.style('fill', '#8C9FA3')
 			.style('stroke', 'none');
@@ -114,13 +109,13 @@ function Polar(){
 		plot.select('.arc').transition()
 			.attr('transform','translate('+ (W/2) + "," + (H/2) + ') rotate('+-0+')')
 			.attr('d', function(d) { return arc(d.slice(6)); })
+		    // .style("stroke-dasharray", ("3, 5"))
 			.style('stroke', '#666666');
 
 		selection.selectAll('svg').data([arr]).append('text')
 			.attr('transform','translate('+ (M.l) + "," + (M.t) + ') rotate('+0+')')
 		    .text(function(d) { return d.key; })
 		    .style('fill', 'black');
-
 	};
 	exports.id = function(_id){
 		if(!arguments.length) return _ID;

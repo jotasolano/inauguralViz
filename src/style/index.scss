@@ -12,6 +12,10 @@
 @import "sections/footer.scss";
 
 
+body{
+	background-color: #f2f2f2;
+}
+
 .chart-container{
 	margin-top: 100px;
 	// width: 100%;
@@ -19,7 +23,7 @@
 }
 
 .plot{
-	min-height: 200px;
+	min-height: 300px;
 }
 
 .pie-chart .slice line{
