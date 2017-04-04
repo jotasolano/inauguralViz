@@ -7,7 +7,7 @@ window.crossfilter = crossfilter
 
 // *** --- DATA QUERY --- ***
 d3.queue()
-	.defer(d3.csv, '../data/compiledFreqConcepts.csv')
+	.defer(d3.csv, '../data/compiledFreqConcepts3.csv')
 	.defer(d3.csv, '../data/compiledFreqWords.csv')
 	.await(dataLoaded);
 
@@ -22,7 +22,7 @@ function dataLoaded(err, concepts, words){
 		.key(function(d) { return d.dates; })
 		.rollup(function(d) { var x = d[0]; delete x.dates; return x; })
 		.entries(concepts);
-		
+
 	// nesting data by year
 	for (index in nestByYear) {
 		var keys = Object.keys(nestByYear[index].value);
@@ -34,42 +34,41 @@ function dataLoaded(err, concepts, words){
 		nestByYear[index].params = params;
 	}
 
-	console.log(nestByYear);
-
-	// console.log(Object.keys(nestByYear[0].values[0])); //the keys
-	// console.log(Object.values(nestByYear[0].values[0])); //the values
-
-
 	var polar = Polar()
 
-	for (var i = 0; i < Things.length; i++) {
-		Things[i]
+	for (var i = 0; i < nestByYear.length; i++) {
+		d3.select('#multiples-container')
+			.append('div')
+			.attr('class', 'col-lg-3 chart-container test')
+			.append('div')
+			.attr('class', 'plot')
+			.attr('id', 'plot'.concat(i))
+			.datum(nestByYear[i]).call(polar)
 	}
 
+	// d3.select('#multiples-container')
+	// 	.append('div')
+	// 	.attr('class', 'col-lg-6 chart-container test')
+	// 	.append('div')
+	// 	.attr('class', 'plot')
+	// 	.attr('id', 'plot'.concat(2))
+	// 	.datum(nestByYear[0]).call(polar)
 
-	d3.select('#multiples-container')
-		.append('div')
-		.attr('class', 'col-lg-6 chart-container test')
-		.append('div')
-		.attr('class', 'plot')
-		.attr('id', 'plot1')
-		.datum(nestByYear[0]).call(polar)
+	// d3.select('#multiples-container')
+	// 	.append('div')
+	// 	.attr('class', 'col-lg-6 chart-container test')
+	// 	.append('div')
+	// 	.attr('class', 'plot')
+	// 	.attr('id', 'plot1')
+	// 	.datum(nestByYear[2]).call(polar)
 
-	d3.select('#multiples-container')
-		.append('div')
-		.attr('class', 'col-lg-6 chart-container test')
-		.append('div')
-		.attr('class', 'plot')
-		.attr('id', 'plot1')
-		.datum(nestByYear[2]).call(polar)
-
-	d3.select('#multiples-container')
-		.append('div')
-		.attr('class', 'col-lg-6 chart-container test')
-		.append('div')
-		.attr('class', 'plot')
-		.attr('id', 'plot1')
-		.datum(nestByYear[4]).call(polar)
+	// d3.select('#multiples-container')
+	// 	.append('div')
+	// 	.attr('class', 'col-lg-6 chart-container test')
+	// 	.append('div')
+	// 	.attr('class', 'plot')
+	// 	.attr('id', 'plot1')
+	// 	.datum(nestByYear[4]).call(polar)
 
 	// d3.select('#plot1').datum(nestByYear[0]).call(polar);
 	// d3.select('#plot2').datum(nestByYear[2]).call(polar);
