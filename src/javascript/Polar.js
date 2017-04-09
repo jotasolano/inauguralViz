@@ -42,19 +42,19 @@ function Polar(){
 			.range([0, Math.PI*2])
 
 	    var y = d3.scaleLinear()
-	    	.domain([0, 124])
+	    	.domain([0, 77])
 	    	.range([H/2, 0])
 
 	    var y2 = d3.scaleLinear()
-	    	.domain([0, 124])
+	    	.domain([0, 77])
 	    	.range([H/2, H])
 
 	    var areaT = d3.area()
-	    	.x(function(d, i) {return i * 100; })
-	    	.y1(function(d) { return y(parseInt(d.value)); })
+	    	.x(function(d, i) {return i * 80; })
+	    	.y1(function(d) { console.log(y(parseInt(d.value))); return y(parseInt(d.value)); })
 
 	    var areaB = d3.area()
-	    	.x(function(d, i) {return i * 100; })
+	    	.x(function(d, i) {return i * 80; })
 	    	.y1(function(d) { return y2(parseInt(d.value)); })
 
 		var arc = d3.arc()
@@ -82,9 +82,12 @@ function Polar(){
 		var plotEnter = svgEnter.append('g').attr('class','plot time-series')
 			.attr('transform','translate('+M.l+','+M.t+')')
 		plotEnter.append('circle').attr('class', 'point');
+		plotEnter.append('rect').attr('class', 'background');
+		plotEnter.append('rect').attr('class', 'ref');
 		plotEnter.append('path').attr('class', 'areaT');
 		plotEnter.append('path').attr('class', 'areaB');
-		plotEnter.append('path').attr('class', 'arc');
+		plotEnter.append('text').attr('class', 'name');
+		// plotEnter.append('path').attr('class', 'arc');
 
 		areaT.y0(y(0));
 		areaB.y0(y2(0));
@@ -93,6 +96,22 @@ function Polar(){
 		var plot = svg.merge(svgEnter)
 			.select('.plot')
 			.attr('transform','translate('+ (M.l) + "," + (M.t) + ') rotate('+-0+')');
+
+
+		plot.select('.background').transition()
+		    .attr('x', M.l)
+		    .attr('y', M.t)
+		    .attr('width', 150)
+		    .attr('height', 150)
+		    .style('fill', '#c2b59b');
+
+		plot.select('.ref').transition()
+		    .attr('x', 0)
+		    .attr('y', 0)
+		    .attr('width', W)
+		    .attr('height', H)
+		    .style('fill', 'rgba(0, 0, 0, 0.1)');
+
 
 		plot.select('.areaT').transition()
 			.attr('transform','translate('+ (padding) + "," + (0) + ') rotate('+-0+')')
@@ -112,7 +131,7 @@ function Polar(){
 		    // .style("stroke-dasharray", ("3, 5"))
 			.style('stroke', '#666666');
 
-		selection.selectAll('svg').data([arr]).append('text')
+		selection.selectAll('svg').select('.plot').data([arr]).append('text')
 			.attr('transform','translate('+ (M.l) + "," + (M.t) + ') rotate('+0+')')
 		    .text(function(d) { return d.key; })
 		    .style('fill', 'black');

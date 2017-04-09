@@ -7,12 +7,15 @@ window.crossfilter = crossfilter
 
 // *** --- DATA QUERY --- ***
 d3.queue()
-	.defer(d3.csv, '../data/compiledFreqConcepts5.csv')
+	// .defer(d3.csv, '../data/compiledFreqConcepts5.csv')
+	.defer(d3.csv, '../data/compiledFreqConceptsW.csv')
 	.defer(d3.csv, '../data/compiledFreqWords.csv')
 	.await(dataLoaded);
 
 // *** --- dataLoaded() --- ***
 function dataLoaded(err, concepts, words){
+
+	// console.log(concepts);
 
 	// *** --- DATA MODELS --- ***
 	var cf = crossfilter(concepts)
@@ -21,6 +24,8 @@ function dataLoaded(err, concepts, words){
 		.key(function(d) { return d.dates; })
 		.rollup(function(d) { var x = d[0]; delete x.dates; return x; })
 		.entries(concepts);
+
+	// console.log(nestByYear);
 
 	// nesting data by year
 	for (index in nestByYear) {
@@ -44,37 +49,4 @@ function dataLoaded(err, concepts, words){
 			.attr('id', 'plot'.concat(i))
 			.datum(nestByYear[i]).call(polar)
 	}
-
-	// d3.select('#multiples-container')
-	// 	.append('div')
-	// 	.attr('class', 'col-lg-6 chart-container test')
-	// 	.append('div')
-	// 	.attr('class', 'plot')
-	// 	.attr('id', 'plot'.concat(2))
-	// 	.datum(nestByYear[0]).call(polar)
-
-	// d3.select('#multiples-container')
-	// 	.append('div')
-	// 	.attr('class', 'col-lg-6 chart-container test')
-	// 	.append('div')
-	// 	.attr('class', 'plot')
-	// 	.attr('id', 'plot1')
-	// 	.datum(nestByYear[2]).call(polar)
-
-	// d3.select('#multiples-container')
-	// 	.append('div')
-	// 	.attr('class', 'col-lg-6 chart-container test')
-	// 	.append('div')
-	// 	.attr('class', 'plot')
-	// 	.attr('id', 'plot1')
-	// 	.datum(nestByYear[4]).call(polar)
-
-	// d3.select('#plot1').datum(nestByYear[0]).call(polar);
-	// d3.select('#plot2').datum(nestByYear[2]).call(polar);
-
-	// 	var charts = document.getElementById('multiples-container');
-
-	// charts.innerHTML = '<div class="col-lg-6 chart-container"><div id="plot3" class="plot"></div></div>'
-
-
 }// <--- dataLoaded()
