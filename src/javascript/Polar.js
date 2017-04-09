@@ -4,6 +4,7 @@ function Polar(){
 	};
 	var W, H, M ={t:20,r:20,b:20,l:20};
 	var scaleX, scaleY;
+	var _bgLen = 150;
 	var labels = []
 	// var _dispatcher = d3.dispatch('timerange:select');
 
@@ -34,7 +35,7 @@ function Polar(){
 		var maxSpLength = 9200;
 		console.log(_data);
 
-		var radius = Math.min(W, H) / 2 - 7
+		var radius = Math.min(_bgLen, _bgLen) / 2 - 7
 		var padding = (W - 200)/2
 
 		var r = d3.scaleLinear()
@@ -42,23 +43,24 @@ function Polar(){
 			.range([0, Math.PI*2])
 
 	    var y = d3.scaleLinear()
-	    	.domain([0, 77])
-	    	.range([H/2, 0])
+	    	.domain([0, 77.7])
+	    	.range([_bgLen/2, 0])
 
 	    var y2 = d3.scaleLinear()
-	    	.domain([0, 77])
-	    	.range([H/2, H])
+	    	.domain([0, 77.7])
+	    	.range([_bgLen/2, _bgLen])
 
 	    var areaT = d3.area()
-	    	.x(function(d, i) {return i * 80; })
+	    	.x(function(d, i) {return i * 75; })
 	    	.y1(function(d) { console.log(y(parseInt(d.value))); return y(parseInt(d.value)); })
 
 	    var areaB = d3.area()
-	    	.x(function(d, i) {return i * 80; })
+	    	.x(function(d, i) {return i * 75; })
 	    	.y1(function(d) { return y2(parseInt(d.value)); })
 
 		var arc = d3.arc()
-			.innerRadius(function(d) { return radius; })
+			// .innerRadius(function(d) { return radius; })
+			// .innerRadius(function(d) { return radius; })
 			.outerRadius(function(d) { return radius; })
 			.startAngle(r(0))
 			.endAngle(function(d, i) { return r(d[0].value); });
@@ -83,14 +85,16 @@ function Polar(){
 			.attr('transform','translate('+M.l+','+M.t+')')
 		plotEnter.append('circle').attr('class', 'point');
 		plotEnter.append('rect').attr('class', 'background');
-		plotEnter.append('rect').attr('class', 'ref');
+		plotEnter.append('path').attr('class', 'arc');
+		// plotEnter.append('rect').attr('class', 'ref');
 		plotEnter.append('path').attr('class', 'areaT');
 		plotEnter.append('path').attr('class', 'areaB');
 		plotEnter.append('text').attr('class', 'name');
-		// plotEnter.append('path').attr('class', 'arc');
+
 
 		areaT.y0(y(0));
 		areaB.y0(y2(0));
+		arc.innerRadius(0);
 
 		//Update
 		var plot = svg.merge(svgEnter)
@@ -101,8 +105,8 @@ function Polar(){
 		plot.select('.background').transition()
 		    .attr('x', M.l)
 		    .attr('y', M.t)
-		    .attr('width', 150)
-		    .attr('height', 150)
+		    .attr('width', _bgLen)
+		    .attr('height', _bgLen)
 		    .style('fill', '#c2b59b');
 
 		plot.select('.ref').transition()
@@ -114,25 +118,25 @@ function Polar(){
 
 
 		plot.select('.areaT').transition()
-			.attr('transform','translate('+ (padding) + "," + (0) + ') rotate('+-0+')')
+			.attr('transform','translate('+ (M.l) + "," + (M.t + _bgLen) + ') rotate('+-90+')')
 			.attr('d', function(d) { return areaT(d.slice(0,3)); })
 			.style('fill', '#BCD8DD')
 			.style('stroke', 'none');
 
 		plot.select('.areaB').transition()
-			.attr('transform','translate('+ (padding) + "," + (0) + ') rotate('+-0+')')
+			.attr('transform','translate('+ (M.l) + "," + (M.t + _bgLen) + ') rotate('+-90+')')
 			.attr('d', function(d) { return areaB(d.slice(3,6)); })
 			.style('fill', '#8C9FA3')
 			.style('stroke', 'none');
 
 		plot.select('.arc').transition()
-			.attr('transform','translate('+ (W/2) + "," + (H/2) + ') rotate('+-0+')')
+			.attr('transform','translate('+ (_bgLen/2 + M.l) + "," + (_bgLen/2 + M.t) + ') rotate('+-0+')')
 			.attr('d', function(d) { return arc(d.slice(6)); })
-		    // .style("stroke-dasharray", ("3, 5"))
-			.style('stroke', '#666666');
+		    .style('fill', 'rgba(255, 255, 255, 0.2)')
 
 		selection.selectAll('svg').select('.plot').data([arr]).append('text')
-			.attr('transform','translate('+ (M.l) + "," + (M.t) + ') rotate('+0+')')
+			.attr('transform','translate('+ (M.l) + "," + (M.t - 10) + ') rotate('+0+')')
+			.attr('class', 'txt-multiples')
 		    .text(function(d) { return d.key; })
 		    .style('fill', 'black');
 	};
