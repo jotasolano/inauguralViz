@@ -33,7 +33,7 @@ function Polar(){
 
 		var dLength = _data.length;
 		var maxSpLength = 9200;
-		console.log(_data);
+		// console.log(_data);
 
 		var radius = Math.min(_bgLen, _bgLen) / 2 - 7
 		var padding = (W - 200)/2
@@ -52,7 +52,7 @@ function Polar(){
 
 	    var areaT = d3.area()
 	    	.x(function(d, i) {return i * 75; })
-	    	.y1(function(d) { console.log(y(parseInt(d.value))); return y(parseInt(d.value)); })
+	    	.y1(function(d) { return y(parseInt(d.value)); })
 
 	    var areaB = d3.area()
 	    	.x(function(d, i) {return i * 75; })
@@ -90,10 +90,11 @@ function Polar(){
 			.attr('transform','translate('+M.l+','+M.t+')')
 		plotEnter.append('circle').attr('class', 'point');
 		plotEnter.append('rect').attr('class', 'background');
-		plotEnter.append('path').attr('class', 'arc');
-		plotEnter.append('path').attr('class', 'arcBorder');
+
 		plotEnter.append('path').attr('class', 'areaT');
 		plotEnter.append('path').attr('class', 'areaB');
+				plotEnter.append('path').attr('class', 'arc');
+		plotEnter.append('path').attr('class', 'arcBorder');
 		plotEnter.append('text').attr('class', 'name');
 
 
@@ -111,7 +112,8 @@ function Polar(){
 		    .attr('y', M.t)
 		    .attr('width', _bgLen)
 		    .attr('height', _bgLen)
-		    .style('fill', '#53606B');
+		    .style('fill', '#53606B')
+		    .style('fill-opacity', 0);
 
 		plot.select('.areaT').transition()
 			.attr('transform','translate('+ (M.l) + "," + (M.t + _bgLen) + ') rotate('+-90+')')

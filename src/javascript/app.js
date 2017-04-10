@@ -1,9 +1,13 @@
 // *** --- REQUIRE DEPENDENCIES --- ***
 var d3 = require('d3')
 var crossfilter = require('crossfilter')
+var textures = require('textures')
+var jquery = require('jquery')
 
-window.d3 = d3
-window.crossfilter = crossfilter
+window.d3 = d3;
+window.crossfilter = crossfilter;
+window.textures = textures;
+window.jquery = jquery;
 
 // *** --- DATA QUERY --- ***
 d3.queue()
@@ -47,6 +51,13 @@ function dataLoaded(err, concepts, words){
 			.append('div')
 			.attr('class', 'plot')
 			.attr('id', 'plot'.concat(i))
-			.datum(nestByYear[i]).call(polar)
+			// .attr('data-toggle', 'modal')
+			.attr('data-target', '.bs-example-modal-lg')
+			.datum(nestByYear[i]).call(polar);
 	}
+
+	d3.selectAll('.plot').on('click', function(d){
+		var index = this.id.substring(4)
+		console.log(+index);
+	})
 }// <--- dataLoaded()
