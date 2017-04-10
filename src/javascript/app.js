@@ -18,9 +18,6 @@ d3.queue()
 
 // *** --- dataLoaded() --- ***
 function dataLoaded(err, concepts, words){
-
-	// console.log(concepts);
-
 	// *** --- DATA MODELS --- ***
 	var cf = crossfilter(concepts)
 	var conceptsByPresident = cf.dimension(function(d) { return d.dates; })
@@ -42,22 +39,24 @@ function dataLoaded(err, concepts, words){
 		nestByYear[index].params = params;
 	}
 
-	var polar = Polar()
+	var polar = Polar();
+	var request = Request();
 
 	for (var i = 0; i < nestByYear.length; i++) {
 		d3.select('#multiples-container')
 			// .append('div')
 			// .attr('class', 'chart-container test')
 			.append('div')
-			.attr('class', 'plot')
+			.attr('class', 'plot-container')
 			.attr('id', 'plot'.concat(i))
-			// .attr('data-toggle', 'modal')
+			.attr('data-toggle', 'modal')
 			.attr('data-target', '.bs-example-modal-lg')
 			.datum(nestByYear[i]).call(polar);
 	}
 
-	d3.selectAll('.plot').on('click', function(d){
-		var index = this.id.substring(4)
-		console.log(+index);
+	d3.selectAll('.plot-container').on('click', function(d){
+		var index = this.id.substring(4);
+		var node = d3.select('#speech-container').node();
+		request(node, index);
 	})
 }// <--- dataLoaded()

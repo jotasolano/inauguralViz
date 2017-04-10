@@ -43,7 +43,7 @@ body{
 	// min-height: 300px;
 }
 
-.plot{
+.plot-container{
 	min-height: 200px;
 	min-width: 200px;
 }
@@ -61,3 +61,19 @@ body{
     stroke: steelblue;
     stroke-dasharray: 4;
   }
+
+
+.modal-body{
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+
+}
+
+.modal-content{
+
+	h6{
+		color: black;
+		white-space:pre-wrap;
+	}
+	
+}

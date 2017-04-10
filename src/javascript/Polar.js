@@ -90,10 +90,9 @@ function Polar(){
 			.attr('transform','translate('+M.l+','+M.t+')')
 		plotEnter.append('circle').attr('class', 'point');
 		plotEnter.append('rect').attr('class', 'background');
-
 		plotEnter.append('path').attr('class', 'areaT');
 		plotEnter.append('path').attr('class', 'areaB');
-				plotEnter.append('path').attr('class', 'arc');
+		plotEnter.append('path').attr('class', 'arc');
 		plotEnter.append('path').attr('class', 'arcBorder');
 		plotEnter.append('text').attr('class', 'name');
 
@@ -113,7 +112,7 @@ function Polar(){
 		    .attr('width', _bgLen)
 		    .attr('height', _bgLen)
 		    .style('fill', '#53606B')
-		    .style('fill-opacity', 0);
+		    .style('fill-opacity', 1);
 
 		plot.select('.areaT').transition()
 			.attr('transform','translate('+ (M.l) + "," + (M.t + _bgLen) + ') rotate('+-90+')')
