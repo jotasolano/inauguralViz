@@ -59,8 +59,13 @@ function Polar(){
 	    	.y1(function(d) { return y2(parseInt(d.value)); })
 
 		var arc = d3.arc()
-			// .innerRadius(function(d) { return radius; })
-			// .innerRadius(function(d) { return radius; })
+			.innerRadius(0)
+			.outerRadius(function(d) { return radius; })
+			.startAngle(r(0))
+			.endAngle(function(d, i) { return r(d[0].value); });
+
+		var arcBorder = d3.arc()
+			.innerRadius(function(d) { return radius; })
 			.outerRadius(function(d) { return radius; })
 			.startAngle(r(0))
 			.endAngle(function(d, i) { return r(d[0].value); });
@@ -86,7 +91,7 @@ function Polar(){
 		plotEnter.append('circle').attr('class', 'point');
 		plotEnter.append('rect').attr('class', 'background');
 		plotEnter.append('path').attr('class', 'arc');
-		// plotEnter.append('rect').attr('class', 'ref');
+		plotEnter.append('path').attr('class', 'arcBorder');
 		plotEnter.append('path').attr('class', 'areaT');
 		plotEnter.append('path').attr('class', 'areaB');
 		plotEnter.append('text').attr('class', 'name');
@@ -94,7 +99,6 @@ function Polar(){
 
 		areaT.y0(y(0));
 		areaB.y0(y2(0));
-		arc.innerRadius(0);
 
 		//Update
 		var plot = svg.merge(svgEnter)
@@ -107,15 +111,7 @@ function Polar(){
 		    .attr('y', M.t)
 		    .attr('width', _bgLen)
 		    .attr('height', _bgLen)
-		    .style('fill', '#c2b59b');
-
-		plot.select('.ref').transition()
-		    .attr('x', 0)
-		    .attr('y', 0)
-		    .attr('width', W)
-		    .attr('height', H)
-		    .style('fill', 'rgba(0, 0, 0, 0.1)');
-
+		    .style('fill', '#53606B');
 
 		plot.select('.areaT').transition()
 			.attr('transform','translate('+ (M.l) + "," + (M.t + _bgLen) + ') rotate('+-90+')')
@@ -134,11 +130,18 @@ function Polar(){
 			.attr('d', function(d) { return arc(d.slice(6)); })
 		    .style('fill', 'rgba(255, 255, 255, 0.2)')
 
+		plot.select('.arcBorder').transition()
+			.attr('transform','translate('+ (_bgLen/2 + M.l) + "," + (_bgLen/2 + M.t) + ') rotate('+-0+')')
+			.attr('d', function(d) { return arcBorder(d.slice(6)); })
+		    .style('fill', 'none')
+		    .style('stroke', 'white');
+
+
 		selection.selectAll('svg').select('.plot').data([arr]).append('text')
 			.attr('transform','translate('+ (M.l) + "," + (M.t - 10) + ') rotate('+0+')')
 			.attr('class', 'txt-multiples')
 		    .text(function(d) { return d.key; })
-		    .style('fill', 'black');
+		    .style('fill', '#f2f2f2');
 	};
 	exports.id = function(_id){
 		if(!arguments.length) return _ID;

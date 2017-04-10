@@ -13,7 +13,28 @@
 
 
 body{
-	background-color: #f2f2f2;
+	background-color: #2B3238;
+}
+
+
+.header-container {
+	margin-bottom: 40px;
+}
+
+.header-content-container{
+	margin-bottom: 40px;
+
+	h5{
+		line-height: 1.5;
+	}
+}
+
+#multiples-container{
+	display: flex;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap; /* Safari */
+  	flex-wrap: wrap;
+	justify-content: center;
 }
 
 .chart-container{
@@ -23,7 +44,8 @@ body{
 }
 
 .plot{
-	min-height: 300px;
+	min-height: 200px;
+	min-width: 200px;
 }
 
 .pie-chart .slice line{

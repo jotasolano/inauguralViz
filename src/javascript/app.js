@@ -42,8 +42,8 @@ function dataLoaded(err, concepts, words){
 
 	for (var i = 0; i < nestByYear.length; i++) {
 		d3.select('#multiples-container')
-			.append('div')
-			.attr('class', 'col-lg-3 chart-container test')
+			// .append('div')
+			// .attr('class', 'chart-container test')
 			.append('div')
 			.attr('class', 'plot')
 			.attr('id', 'plot'.concat(i))
