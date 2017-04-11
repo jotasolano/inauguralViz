@@ -41,11 +41,11 @@ function dataLoaded(err, concepts, words){
 
 	var polar = Polar();
 	var request = Request();
+	var polarDetail = PolarDetail()
+		.pointer(false);
 
 	for (var i = 0; i < nestByYear.length; i++) {
 		d3.select('#multiples-container')
-			// .append('div')
-			// .attr('class', 'chart-container test')
 			.append('div')
 			.attr('class', 'plot-container')
 			.attr('id', 'plot'.concat(i))
@@ -54,9 +54,20 @@ function dataLoaded(err, concepts, words){
 			.datum(nestByYear[i]).call(polar);
 	}
 
-	d3.selectAll('.plot-container').on('click', function(d){
+	d3.selectAll('.plot-container')
+	.on('click', function(d){
 		var index = this.id.substring(4);
 		var node = d3.select('#speech-container').node();
 		request(node, index);
+
+		d3.select('#modal-chart-container')
+		.append('div')
+		.attr('class', 'plot-container plot-modal')
+		.datum(nestByYear[index]).call(polarDetail);
+	});
+
+	// remove svg when modal is closed
+	$('#speeches-modal').on('hidden.bs.modal', function () {
+    	d3.selectAll('.plot-modal').remove();
 	})
 }// <--- dataLoaded()

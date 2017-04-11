@@ -18,16 +18,19 @@
 				<h5>The presidential addresses set the tone for the new administration of the republic. This is a visual exploration of the words, concepts and ideas that are discussed, disected by their frequency across fifty-six presidencies.
 				The visualizations seek to discover trends in tone and ideas across time, both positive and negative, and to reveal hidden messages embedded in the narratives.</h5>
 			</div>
-
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <h6 id='speech-container' class="modal-body"></h6>
-    </div>
-  </div>
-</div>
-
-
+			<div id="speeches-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+			  <div class="modal-dialog modal-lg" role="document">
+			    <div class="modal-content">
+			    	<div class="modal-body">
+			    		<div class="row">
+			    			<div id="modal-chart-container" class="col-lg-4 col-md-12 col-sm-12"></div>
+			    			<h6 id="speech-container" class="col-lg-8 col-md-12 col-sm-12"></h6>
+			    		</div>
+			    	</div>
+			      
+			    </div>
+			  </div>
+			</div>
 		</div>
 		<div id="multiples-container" class="col-lg-12">
 		</div>
@@ -36,6 +39,7 @@
 <!-- 	<script src="javascript/misc.js"></script> -->
 	<script src="javascript/Request.js"></script>
 	<script src="javascript/Polar.js"></script>
+	<script src="javascript/PolarDetail.js"></script>
 	<script src="app.js"></script>
 
 </body>

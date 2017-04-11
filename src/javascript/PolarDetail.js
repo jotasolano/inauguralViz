@@ -1,11 +1,11 @@
-function Polar(){
+function PolarDetail(){
 	var _accessor = function(d){
 		return d.startTime;
 	};
 	var M ={t:20,r:20,b:20,l:20};
-	var W = 200, H = 200;
+	var W = 250, H = 250;
 	var scaleX, scaleY;
-	var _bgLen = 150;
+	var _bgLen = 200;
 	var labels = []
 	// var _dispatcher = d3.dispatch('timerange:select');
 
@@ -38,7 +38,7 @@ function Polar(){
 		// console.log(_data);
 
 		var radius = Math.min(_bgLen, _bgLen) / 2 - 7
-		var padding = (W - 200)/2
+		var padding = (W - H)/2
 
 		var r = d3.scaleLinear()
 			.domain([0, maxSpLength])
@@ -53,11 +53,11 @@ function Polar(){
 	    	.range([_bgLen/2, _bgLen])
 
 	    var areaT = d3.area()
-	    	.x(function(d, i) {return i * 75; })
+	    	.x(function(d, i) {return i * _bgLen/2; })
 	    	.y1(function(d) { return y(parseInt(d.value)); })
 
 	    var areaB = d3.area()
-	    	.x(function(d, i) {return i * 75; })
+	    	.x(function(d, i) {return i * _bgLen/2; })
 	    	.y1(function(d) { return y2(parseInt(d.value)); })
 
 		var arc = d3.arc()
@@ -98,16 +98,14 @@ function Polar(){
 		plotEnter.append('path').attr('class', 'arcBorder');
 		plotEnter.append('text').attr('class', 'name');
 
-
 		areaT.y0(y(0));
 		areaB.y0(y2(0));
 
 		//Update
 		var plot = svg.merge(svgEnter)
 			.select('.plot')
-			.attr('transform','translate('+ (M.l) + "," + (M.t) + ') rotate('+-0+')')
+			.attr('transform','translate('+ (0) + "," + (M.t) + ') rotate('+-0+')')
 			.classed('pointer', _pointer);
-
 
 		plot.select('.background').transition()
 		    .attr('x', M.l)
@@ -141,10 +139,9 @@ function Polar(){
 		    .style('fill', 'none')
 		    .style('stroke', 'white');
 
-
 		selection.selectAll('svg').select('.plot').data([arr]).append('text')
-			.attr('transform','translate('+ (M.l) + "," + (M.t - 10) + ') rotate('+0+')')
-			.attr('class', 'txt-multiples')
+			.attr('transform','translate('+ (0) + "," + (0) + ') rotate('+0+')')
+			.attr('class', 'txt-multiples txt-detail')
 		    .text(function(d) { return d.key; })
 		    .style('fill', '#f2f2f2');
 	};

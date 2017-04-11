@@ -62,6 +62,18 @@ body{
     stroke-dasharray: 4;
   }
 
+.modal-content{
+	background-color: #2B3238;
+	h6{
+		// color: black;
+		white-space:pre-wrap;
+	}
+	
+}
+
+#speech-container{
+	margin-top: 30px;
+}
 
 .modal-body{
     max-height: calc(100vh - 200px);
@@ -69,11 +81,13 @@ body{
 
 }
 
-.modal-content{
+.plot-modal{
+	position: fixed;
+	top: 2%;
+    left: 2%;
+}
 
-	h6{
-		color: black;
-		white-space:pre-wrap;
-	}
-	
+.pointer{
+	cursor: pointer;
+	cursor: hand;
 }
