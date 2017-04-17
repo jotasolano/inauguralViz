@@ -65,8 +65,8 @@ body{
 .modal-content{
 	background-color: #2B3238;
 	h6{
-		// color: black;
 		white-space:pre-wrap;
+		line-height: 1.5;
 	}
 	
 }
@@ -90,4 +90,32 @@ body{
 .pointer{
 	cursor: pointer;
 	cursor: hand;
+}
+
+.concepts{
+	fill: white;
+}
+
+.time-series{
+
+	.axis-x, .axis-r{
+		.domain{
+			stroke: none;
+		}
+
+		.tick line{
+			stroke: white;
+			stroke-width:.5px;
+			stroke-dasharray: none;
+		}
+
+		.tick text{
+			fill: white;
+		}
+	}
+}
+
+.time-series .axis-x .tick line{
+	stroke:white;
+	stroke-width:.5px;
 }

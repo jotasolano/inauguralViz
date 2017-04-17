@@ -31,11 +31,12 @@ function PolarDetail(){
 		  }
 		}
 
+		// console.log(_data[1].key);
+
 		parseObjectKeys(_data);
 
 		var dLength = _data.length;
 		var maxSpLength = 9200;
-		// console.log(_data);
 
 		var radius = Math.min(_bgLen, _bgLen) / 2 - 7
 		var padding = (W - H)/2
@@ -73,12 +74,15 @@ function PolarDetail(){
 			.endAngle(function(d, i) { return r(d[0].value); });
 
 		var axisX = d3.axisBottom()
-			.scale(scaleX);
+			.ticks(4)
+			.tickSize(-10)
+			.scale(y);
 
-		var axisY = d3.axisLeft()
-			.tickSize(-W)
-			.scale(scaleY)
-			.ticks(4);
+		var axisR = d3.axisBottom()
+			.ticks(4)
+			.tickSize(-10)
+			.scale(y2)
+
 
 		var svg = selection.selectAll('svg')
 			.data([_data]);
@@ -90,13 +94,16 @@ function PolarDetail(){
 
 		var plotEnter = svgEnter.append('g').attr('class','plot time-series')
 			.attr('transform','translate('+M.l+','+M.t+')')
+		plotEnter.append('g').attr('class', 'axis axis-x');
+		plotEnter.append('g').attr('class', 'axis axis-r')
 		plotEnter.append('circle').attr('class', 'point');
 		plotEnter.append('rect').attr('class', 'background');
 		plotEnter.append('path').attr('class', 'areaT');
 		plotEnter.append('path').attr('class', 'areaB');
 		plotEnter.append('path').attr('class', 'arc');
 		plotEnter.append('path').attr('class', 'arcBorder');
-		plotEnter.append('text').attr('class', 'name');
+		// plotEnter.append('text').attr('class', 'concepts');
+		
 
 		areaT.y0(y(0));
 		areaB.y0(y2(0));
@@ -106,6 +113,16 @@ function PolarDetail(){
 			.select('.plot')
 			.attr('transform','translate('+ (0) + "," + (M.t) + ') rotate('+-0+')')
 			.classed('pointer', _pointer);
+
+		plot.select('.axis-x')
+			.attr('transform','translate('+ (M.l) + "," + (H) + ') rotate('+-0+')')
+			.transition()
+			.call(axisX);
+
+		plot.select('.axis-r')
+			.attr('transform','translate('+ (M.l) + "," + (H) + ') rotate('+-0+')')
+			.transition()
+			.call(axisR);
 
 		plot.select('.background').transition()
 		    .attr('x', M.l)
@@ -144,7 +161,28 @@ function PolarDetail(){
 			.attr('class', 'txt-multiples txt-detail')
 		    .text(function(d) { return d.key; })
 		    .style('fill', '#f2f2f2');
+
+		var cContainer = selection.selectAll('svg')
+			.select('.plot')
+			.append('g')
+			.data([_data])
+			.attr('class', 'c-container')
+
+		cContainer.each(function(d){
+			console.log(d)
+			d3.select(this).selectAll(".concepts").data(d).enter().append("g")
+			// .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+			.attr('transform','translate('+ (M.l) + "," + (M.t + _bgLen) + ') rotate('+0+')')
+			.attr('class', 'concepts')
+			.append("text")
+			.text(function(d,i) { 
+				console.log(i,d); 
+				return d['key']; })
+			.attr('x', function(d,i) { return i*20; })
+		})
+		
 	};
+
 	exports.id = function(_id){
 		if(!arguments.length) return _ID;
 		_ID = _id
