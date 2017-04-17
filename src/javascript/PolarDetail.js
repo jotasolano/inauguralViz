@@ -2,12 +2,11 @@ function PolarDetail(){
 	var _accessor = function(d){
 		return d.startTime;
 	};
-	var M ={t:20,r:20,b:20,l:20};
+	var M ={t:30,r:20,b:20,l:20};
 	var W = 250, H = 250;
 	var scaleX, scaleY;
 	var _bgLen = 200;
 	var labels = []
-	// var _dispatcher = d3.dispatch('timerange:select');
 
 	var _ID = 0;
 	var _pointer = true;
@@ -30,8 +29,6 @@ function PolarDetail(){
 		    }
 		  }
 		}
-
-		// console.log(_data[1].key);
 
 		parseObjectKeys(_data);
 
@@ -101,9 +98,7 @@ function PolarDetail(){
 		plotEnter.append('path').attr('class', 'areaT');
 		plotEnter.append('path').attr('class', 'areaB');
 		plotEnter.append('path').attr('class', 'arc');
-		plotEnter.append('path').attr('class', 'arcBorder');
-		// plotEnter.append('text').attr('class', 'concepts');
-		
+		plotEnter.append('path').attr('class', 'arcBorder');		
 
 		areaT.y0(y(0));
 		areaB.y0(y2(0));
@@ -157,28 +152,40 @@ function PolarDetail(){
 		    .style('stroke', 'white');
 
 		selection.selectAll('svg').select('.plot').data([arr]).append('text')
-			.attr('transform','translate('+ (0) + "," + (0) + ') rotate('+0+')')
+			.attr('transform','translate('+ (0) + "," + (-10) + ') rotate('+0+')')
 			.attr('class', 'txt-multiples txt-detail')
-		    .text(function(d) { return d.key; })
+		    .text(function(d) { return d.key.concat(' | ', d.params[6].value, ' words'); })
 		    .style('fill', '#f2f2f2');
 
-		var cContainer = selection.selectAll('svg')
+		var cContainerL = selection.selectAll('svg')
 			.select('.plot')
 			.append('g')
-			.data([_data])
+			.data([_data.slice(0,3)])
 			.attr('class', 'c-container')
 
-		cContainer.each(function(d){
-			console.log(d)
+		cContainerL.each(function(d){
 			d3.select(this).selectAll(".concepts").data(d).enter().append("g")
-			// .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
 			.attr('transform','translate('+ (M.l) + "," + (M.t + _bgLen) + ') rotate('+0+')')
 			.attr('class', 'concepts')
 			.append("text")
-			.text(function(d,i) { 
-				console.log(i,d); 
-				return d['key']; })
-			.attr('x', function(d,i) { return i*20; })
+			.text(function(d,i) { return d['key']; })
+			.attr('y', function(d,i) { return i*-100; })
+		})
+
+		var cContainerR = selection.selectAll('svg')
+			.select('.plot')
+			.append('g')
+			.data([_data.slice(3,6)])
+			.attr('class', 'c-container')
+
+		cContainerR.each(function(d){
+			d3.select(this).selectAll(".concepts").data(d).enter().append("g")
+			.attr('transform','translate('+ (M.l + _bgLen) + "," + (M.t + _bgLen) + ') rotate('+0+')')
+			.attr('class', 'concepts')
+			.append("text")
+			.text(function(d,i) { return d['key']; })
+			.attr('y', function(d,i) { return i*-100; })
+			.attr('text-anchor', 'end')
 		})
 		
 	};

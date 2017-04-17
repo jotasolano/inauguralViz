@@ -39,11 +39,10 @@ body{
 
 .chart-container{
 	margin-top: 100px;
-	// width: 100%;
-	// min-height: 300px;
 }
 
 .plot-container{
+	margin-top: 10px;
 	min-height: 200px;
 	min-width: 200px;
 }
@@ -67,15 +66,19 @@ body{
 	h6{
 		white-space:pre-wrap;
 		line-height: 1.5;
+		color: #d1d3d4;
 	}
 	
 }
 
 #speech-container{
-	margin-top: 30px;
+	margin-top: 40px;
+	padding-right: 60px;
+
 }
 
 .modal-body{
+	min-height: 300px;
     max-height: calc(100vh - 200px);
     overflow-y: auto;
 
@@ -90,10 +93,6 @@ body{
 .pointer{
 	cursor: pointer;
 	cursor: hand;
-}
-
-.concepts{
-	fill: white;
 }
 
 .time-series{
