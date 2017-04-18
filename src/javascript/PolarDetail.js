@@ -80,7 +80,6 @@ function PolarDetail(){
 			.tickSize(-10)
 			.scale(y2)
 
-
 		var svg = selection.selectAll('svg')
 			.data([_data]);
 
