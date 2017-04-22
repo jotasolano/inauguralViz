@@ -9,15 +9,24 @@ window.crossfilter = crossfilter;
 window.textures = textures;
 window.jquery = jquery;
 
+var stats = Stats();
+var polar = Polar();
+var request = Request();
+var polarDetail = PolarDetail()
+	.pointer(false);
+
 // *** --- DATA QUERY --- ***
 d3.queue()
-	// .defer(d3.csv, '../data/compiledFreqConcepts5.csv')
 	.defer(d3.csv, '../data/compiledFreqConceptsW.csv')
+	.defer(d3.csv, '../data/conceptStats.csv', function(d) { d.max = +d.max; return d })
 	.defer(d3.csv, '../data/compiledFreqWords.csv')
 	.await(dataLoaded);
 
 // *** --- dataLoaded() --- ***
-function dataLoaded(err, concepts, words){
+function dataLoaded(err, concepts, conceptStats, words){
+
+	// console.log(conceptStats);
+
 	// *** --- DATA MODELS --- ***
 	var cf = crossfilter(concepts)
 	var conceptsByPresident = cf.dimension(function(d) { return d.dates; })
@@ -25,8 +34,6 @@ function dataLoaded(err, concepts, words){
 		.key(function(d) { return d.dates; })
 		.rollup(function(d) { var x = d[0]; delete x.dates; return x; })
 		.entries(concepts);
-
-	// console.log(nestByYear);
 
 	// nesting data by year
 	for (index in nestByYear) {
@@ -39,10 +46,8 @@ function dataLoaded(err, concepts, words){
 		nestByYear[index].params = params;
 	}
 
-	var polar = Polar();
-	var request = Request();
-	var polarDetail = PolarDetail()
-		.pointer(false);
+
+	d3.select('#stats-container').datum(conceptStats).call(stats);
 
 	for (var i = 0; i < nestByYear.length; i++) {
 		d3.select('#multiples-container')

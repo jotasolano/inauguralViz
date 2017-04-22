@@ -17,6 +17,10 @@ body{
 }
 
 
+.section{
+	margin-bottom: 60px;
+}
+
 .header-container {
 	margin-bottom: 40px;
 }
@@ -27,6 +31,29 @@ body{
 	h5{
 		line-height: 1.5;
 	}
+}
+
+#stats-container{
+	min-height: 500px;
+}
+
+.stats {
+	.axis-x{
+			.domain{
+				stroke: none;
+			}
+
+			.tick line{
+				stroke: white;
+				stroke-width:.5px;
+				stroke-dasharray: none;
+			}
+
+			.tick text{
+				fill: white;
+			}
+		}
+
 }
 
 #multiples-container{
