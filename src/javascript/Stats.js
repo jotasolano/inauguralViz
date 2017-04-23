@@ -9,9 +9,13 @@ function Stats(){
 		var arr = selection.datum()?selection.datum():[];
 
 	var concepts = arr.map(function(d) { return d.concepts; });
-	var colors = ['#fbb4ae','#b3cde3','#ccebc5','#decbe4','#fed9a6','#ffffcc'];
+	var colors = ["#cbaf3b",
+					"#8a78e7",
+					"#85cc46",
+					"#de5aba",
+					"#5bcf82",
+					"#e36147"];
 
-// console.log(arr);
 		scaleX = d3.scalePoint()
 			.domain(concepts)
 			.range([0, W])
@@ -25,7 +29,40 @@ function Stats(){
 			.domain(concepts)
 			.range(colors)
 
+		console.log(concepts);
+
 		// ** ------- LAYOUT ------- **
+
+var words = {
+	unity: ["alliance", "confederation", "integrity", "one"],
+	democracy: ["citizenry", "department", "majority", "multitude", "people", "republic"],
+	success: ["advancement", "invention", "progress", "technology", "win"],
+	problem: ["conflict", "difficulty", "struggle", "trouble"],
+	terror: ["approach", "attack", "communist", "concern", "fear", "fire", "menace", "panic", "terrorism", "threat"],
+	war: ["artillery", "battle", "dictatorship", "gun", "invasion", "weapon"]
+}
+
+for (var key in words){
+  if (words.hasOwnProperty(key)){
+  	d3.select('#concept-list')
+  		.append('h4')
+  		.html(key)
+  		.attr('id', key)
+  		.attr('class', 'concept-header')
+  		.style('color', function(d) { return scaleColor(key)});
+	}
+    if (words.hasOwnProperty(key)){
+  		d3.select('#' + key).append('ul').attr('class', 'list-unstyled word-list')
+	  	for (var i in words[key]) {
+	  		d3.select('#' + key).select('ul')
+		  		.append('li')
+		  		.html(words[key][i])
+		  		.style('fill', 'white')
+	  	}
+	}
+}
+
+
 		var axisX = d3.axisBottom()
 			.scale(scaleX)
 			.tickSize(0);

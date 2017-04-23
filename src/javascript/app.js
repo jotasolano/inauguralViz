@@ -46,9 +46,6 @@ function dataLoaded(err, concepts, conceptStats, words){
 		nestByYear[index].params = params;
 	}
 
-
-	// d3.select('#concept-list').datum(words)
-
 	d3.select('#stats-container').datum(conceptStats).call(stats);
 
 	for (var i = 0; i < nestByYear.length; i++) {
@@ -78,48 +75,3 @@ function dataLoaded(err, concepts, conceptStats, words){
     	d3.selectAll('.plot-modal').remove();
 	})
 }// <--- dataLoaded()
-
-
-
-var words = {
-	unity: ["alliance", "confederation", "integrity", "one"],
-	democracy: ["citizenry", "democracy", "department", "majority", "multitude", "people", "republic"],
-	success: ["advancement", "invention", "progress", "success", "technology", "win"],
-	problem: ["conflict", "difficulty", "problem", "struggle", "trouble"],
-	terror: ["approach", "attack", "communist", "concern", "fear", "fire", "menace", "panic", "terror", "terrorism", "threat"],
-	war: ["artillery", "battle", "dictatorship", "gun", "invasion", "war", "weapon"]
-}
-
-for (var key in words) {
-  if (words.hasOwnProperty(key)) {
-  	d3.select('#concept-list')
-  		.append('h4')
-  		.html(key)
-  		.attr('id', key)
-  		.style('fill', 'white')
-  }
-
-    if (words.hasOwnProperty(key)) {
-  	d3.select('#' + key)
-  		.append('ul')
-  	for (var i in words[key]) {
-  	d3.select('#' + key).select('ul')
-  		.append('li')
-  		.html(words[key][i])
-  		.style('fill', 'white')
-  	}
-  }
-}
-
-// for (var key in words) {
-//   if (words.hasOwnProperty(key)) {
-//   	d3.select('#' + key)
-//   		.append('ul')
-//   	for (var i in words[key]) {
-//   	d3.select('#' + key).select('ul')
-//   		.append('li')
-//   		.html(words[key][i])
-//   		.style('fill', 'white')
-//   	}
-//   }
-// }

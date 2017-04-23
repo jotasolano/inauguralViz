@@ -3,11 +3,21 @@
 
 h1, h2, h3, h4, h5, h6, p, .txt-multiples {
 	font-family: 'Playfair Display', serif;
-	color: #f2f2f2;
+	color: #A9B1B6;
 }
 
 .txt-detail{
 	font-size: 22px;
+}
+
+.concept-header{
+	.word-list{
+		padding-top: 8px;
+		color: #9e9e9e;
+		line-height: 1.3;
+		font-size: 14px;
+	}
+
 }
 
 .concepts{
@@ -18,10 +28,34 @@ h1, h2, h3, h4, h5, h6, p, .txt-multiples {
 
 .stats {
 	.axis-x{
-			.tick text{
-				font-family: 'Playfair Display', serif;
-				font-size: 12px;
-			}
+		.tick text{
+			font-family: 'Playfair Display', serif;
+			font-size: 12px;
 		}
-
+	}
 }
+
+
+a{
+	color: #f2f2f2;
+}
+
+a:link {
+    text-decoration: none;
+    color: #3EC9A7;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #3EC9A7;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #85cc46;
+}
+
+a:active {
+    text-decoration: none;
+    color: #85cc46;
+} 

@@ -1,0 +1,86 @@
+#multiples-container{
+	margin-top: 60px;
+	display: flex;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap; /* Safari */
+  	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.chart-container{
+	margin-top: 100px;
+}
+
+.plot-container{
+	margin-top: 10px;
+	min-height: 200px;
+	min-width: 200px;
+}
+
+.pie-chart .slice line{
+	fill:none;
+	stroke:rgb(80,80,80);
+	stroke-width:1px;
+}
+
+
+.axis line,
+.axis circle {
+    fill: none;
+    stroke: steelblue;
+    stroke-dasharray: 4;
+}
+
+.modal-content{
+	background-color: #2B3238;
+	h6{
+		white-space:pre-wrap;
+		line-height: 1.5;
+		color: #d1d3d4;
+	}
+}
+
+#speech-container{
+	margin-top: 40px;
+	padding-right: 60px;
+
+}
+
+.modal-body{
+	min-height: 300px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+
+}
+
+.plot-modal{
+	position: fixed;
+	top: 2%;
+    left: 2%;
+}
+
+.pointer{
+	cursor: pointer;
+	cursor: hand;
+}
+
+.time-series{
+	.axis-x, .axis-r{
+		.domain{
+			stroke: none;
+		}
+		.tick line{
+			stroke: white;
+			stroke-width:.5px;
+			stroke-dasharray: none;
+		}
+		.tick text{
+			fill: white;
+		}
+	}
+}
+
+.time-series .axis-x .tick line{
+	stroke:white;
+	stroke-width:.5px;
+}
