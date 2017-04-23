@@ -9,12 +9,8 @@ function Stats(){
 		var arr = selection.datum()?selection.datum():[];
 
 	var concepts = arr.map(function(d) { return d.concepts; });
-	var colors = ["#cbaf3b",
-					"#8a78e7",
-					"#85cc46",
-					"#de5aba",
-					"#5bcf82",
-					"#e36147"];
+	// var colors = ["#5bcf82", "#8a78e7", "#85cc46", "#de5aba", "#cbaf3b", "#e36147"];
+	var colors = ['#39B1CF', '#957FF5', '#85CC46', '#E36147', '#F05ABA', '#E32D47']
 
 		scaleX = d3.scalePoint()
 			.domain(concepts)
@@ -101,7 +97,7 @@ for (var key in words){
 		circles.selectAll('.circles').data(arr).enter().append('circle')
 		    .attr('cx', function(d) { return scaleX(d.concepts)+1; })
 		    .attr('cy', function(d) { return scaleY(d.mean); })
-		    .attr('r', 8)
+		    .attr('r', 6)
 		    .style('fill', function(d) { return scaleColor(d.concepts); });
 
   // the "UPDATE" set:
