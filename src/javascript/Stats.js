@@ -25,8 +25,6 @@ function Stats(){
 			.domain(concepts)
 			.range(colors)
 
-		console.log(concepts);
-
 		// ** ------- LAYOUT ------- **
 
 var words = {
@@ -88,7 +86,7 @@ for (var key in words){
 
 		bars.selectAll('.bars').data(arr).enter().append("rect")
 			.attr("class", "bar")
-			.attr("x", function(d) { console.log(scaleX(d.concepts)); return scaleX(d.concepts); })
+			.attr("x", function(d) { return scaleX(d.concepts); })
 			.attr("y", function(d) { return scaleY(d.max); })
 			.attr("height", function(d) {return H - scaleY(d.max); })
 			.attr('width', 2)
