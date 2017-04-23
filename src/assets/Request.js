@@ -4,8 +4,7 @@ var names = ['1789-Washington.txt', '1793-Washington.txt', '1797-Adams.txt', '18
 var filenames = names.reverse();
 
 
-
-var dir = '../data/speeches/'
+var dir = 'data/speeches/'
 
 	var exports = function(node, index){
 		var path = dir+names[index]

@@ -18,9 +18,9 @@ var polarDetail = PolarDetail()
 
 // *** --- DATA QUERY --- ***
 d3.queue()
-	.defer(d3.csv, '../data/compiledFreqConceptsW.csv')
-	.defer(d3.csv, '../data/conceptStats.csv', function(d) { d.max = +d.max; return d })
-	.defer(d3.csv, '../data/compiledFreqWords.csv')
+	.defer(d3.csv, '../assets/data/compiledFreqConceptsW.csv')
+	.defer(d3.csv, '../assets/data/conceptStats.csv', function(d) { d.max = +d.max; return d })
+	.defer(d3.csv, '../assets/data/compiledFreqWords.csv')
 	.await(dataLoaded);
 
 // *** --- dataLoaded() --- ***
