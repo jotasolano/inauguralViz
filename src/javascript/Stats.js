@@ -47,10 +47,13 @@ function Stats(){
 		    .attr("transform", "translate(0," + H + ")")
 		    .call(axisX)
 
-		var elements = svg.append('g').attr('class', 'elements')
+		var bars = svg.append('g').attr('class', 'bars')
 			.attr('transform', 'translate(' + 0 + ',' + -10 + ')')
 
-		var rects = elements.selectAll('rect').data(arr).enter().append("rect")
+		var circles = svg.append('g').attr('class', 'circles')
+			.attr('transform', 'translate(' + 0 + ',' + -10 + ')')
+
+		bars.selectAll('.bars').data(arr).enter().append("rect")
 			.attr("class", "bar")
 			.attr("x", function(d) { console.log(scaleX(d.concepts)); return scaleX(d.concepts); })
 			.attr("y", function(d) { return scaleY(d.max); })
@@ -58,14 +61,11 @@ function Stats(){
 			.attr('width', 2)
 			.style('fill', function(d) { return scaleColor(d.concepts); });
 
-
-		var circles = elements.selectAll('.circle').data(arr).enter().append('circle')
-		    .attr('cx', function(d) { return scaleX(d.concepts)+0.5; })
+		circles.selectAll('.circles').data(arr).enter().append('circle')
+		    .attr('cx', function(d) { return scaleX(d.concepts)+1; })
 		    .attr('cy', function(d) { return scaleY(d.mean); })
-		    .attr('r', 5)
+		    .attr('r', 8)
 		    .style('fill', function(d) { return scaleColor(d.concepts); });
-
-
 
   // the "UPDATE" set:
   // bars.transition().duration(300).attr("x", function(d) { return scaleX(d.concepts); }) // (d) is one item from the data array, x is the scale object from above
