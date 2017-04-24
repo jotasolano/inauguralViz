@@ -20,3 +20,19 @@ body{
 .section{
 	margin-bottom: 60px;
 }
+
+
+div.tooltip {	
+    position: absolute;			
+    text-align: left;		
+    width: 100px;					
+    height: 60px;					
+    padding: 5px;				
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;	
+    background: #f2f2f2;	
+    border: 0px;		
+    border-radius: 2px;			
+    pointer-events: none;
+    text-transform:capitalize;		
+}

@@ -5,6 +5,25 @@ var gulp         = require('gulp');
 var handleErrors = require('../util/handleErrors');
 var source       = require('vinyl-source-stream');
 
+// gulp.task('default', function(done) {
+//     glob('./src/assets/**.js', function(err, files) {
+//         if(err) done(err);
+
+//         var tasks = files.map(function(entry) {
+//             return browserify({ entries: [entry] })
+//                 .bundle()
+//                 .pipe(source(entry))
+//                 .pipe(rename({
+//                     extname: '.bundle.js'
+//                 }))
+//                 .pipe(gulp.dest('./build'/assets));
+//             });
+//         es.merge(tasks).on('end', done);
+//     })
+// });
+
+
+
 gulp.task('browserify', function() {
   var bundler = browserify({
     cache: {}, packageCache: {}, fullPaths: true,

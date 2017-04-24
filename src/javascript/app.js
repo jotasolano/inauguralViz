@@ -9,7 +9,6 @@ window.crossfilter = crossfilter;
 window.textures = textures;
 window.jquery = jquery;
 
-
 var stats = Stats();
 var polar = Polar();
 var request = Request();

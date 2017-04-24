@@ -13,6 +13,7 @@ gulp.task('browserSync', ['build'], function() {
       // Watch everything in build
       "build/**",
       "!build/images/map/**",
+      "build/assets/**",
       '!http://localhost:3000/*'
     ]
   });

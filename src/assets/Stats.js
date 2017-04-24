@@ -9,7 +9,6 @@ function Stats(){
 		var arr = selection.datum()?selection.datum():[];
 
 	var concepts = arr.map(function(d) { return d.concepts; });
-	// var colors = ["#5bcf82", "#8a78e7", "#85cc46", "#de5aba", "#cbaf3b", "#e36147"];
 	var colors = ['#39B1CF', '#957FF5', '#85CC46', '#E36147', '#F05ABA', '#E32D47']
 
 		scaleX = d3.scalePoint()
@@ -78,6 +77,13 @@ for (var key in words){
 		    .attr("transform", "translate(0," + H + ")")
 		    .call(axisX)
 
+		var div = d3.select("body").append("div")	
+		    .attr("class", "tooltip")				
+		    .style("opacity", 0);
+
+		var barsBig = svg.append('g').attr('class', 'barsBig')
+			.attr('transform', 'translate(' + 0 + ',' + -10 + ')')
+
 		var bars = svg.append('g').attr('class', 'bars')
 			.attr('transform', 'translate(' + 0 + ',' + -10 + ')')
 
@@ -91,6 +97,32 @@ for (var key in words){
 			.attr("height", function(d) {return H - scaleY(d.max); })
 			.attr('width', 2)
 			.style('fill', function(d) { return scaleColor(d.concepts); });
+
+
+		bars.selectAll('.barsBig').data(arr).enter().append("rect")
+			.attr("class", "bar")
+			.attr("x", function(d) { return scaleX(d.concepts)-15; })
+			.attr("y", function(d) { return scaleY(d.max); })
+			.attr("height", function(d) {return H - scaleY(d.max); })
+			.attr('width', 30)
+			.style('fill', 'white')
+			.style('opacity', 0)
+			.on('mouseover', function(d) {
+				var coords = d3.mouse(this);
+				var testX = d3.event.pageX;
+				var testY = d3.event.pageY;
+				div.transition()		
+	                .duration(200)		
+	                .style("opacity", .9);
+	            div.html(d.concepts + "<br/>" + "Max: " + d.max + "<br/>" + "Mean: " + (+d.mean).toFixed(2))	
+                .style("left", (testX) + "px")		
+                .style("top", (testY - 20) + "px")
+			})
+			.on("mouseout", function(d) {		
+            div.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+        	});
 
 		circles.selectAll('.circles').data(arr).enter().append('circle')
 		    .attr('cx', function(d) { return scaleX(d.concepts)+1; })

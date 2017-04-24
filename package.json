@@ -8,7 +8,7 @@
     "url": "https://github.com/Cruz14/init_dev_enviroment"
   },
   "scripts": {
-    "build": "gulp production",
+    "build": "gulp build",
     "watch": "gulp watch"
   },
   "dependencies": {
